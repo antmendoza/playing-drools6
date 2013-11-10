@@ -1,0 +1,52 @@
+//created on: 09-nov-2013
+package com.antmendoza.drools.fusion
+
+import com.antmendoza.model.Signal
+//list any import classes here.
+
+declare Signal
+    @role(event)
+end
+
+//declare any global variables here
+
+rule "Signal from floor1 with temperature > 30 and humidity > 70"
+dialect "mvel" 
+    when
+       //conditions
+       $s: Signal(temperature > 30, humidity > 70) from entry-point "floor1"
+    then
+        //actions
+		System.out.println("Processing "+$s.nameSensor +" -> " + kcontext.getRule().getName());
+		//entryPoints["floor1"].insert( $s );
+end
+
+rule "Signal from floor2 with temperature > 50"
+dialect "mvel" 
+    when
+       //conditions
+       $s: Signal(temperature > 50) from entry-point "floor2"
+    then
+        //actions
+		System.out.println("Processing "+$s.nameSensor +" -> " + kcontext.getRule().getName());
+		entryPoints["alert"].insert( $s );
+end
+
+
+
+
+rule "Signal from floor to actue "
+dialect "mvel" 
+    when
+       //conditions
+       $s: Signal() from entry-point "alert"
+    then
+        //actions
+		System.out.println("Processing "+$s.nameSensor +" -> " + kcontext.getRule().getName());
+		//entryPoints["floor1"].insert( $s );
+end
+
+
+
+
+

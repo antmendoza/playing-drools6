@@ -1,0 +1,26 @@
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.antmendoza</groupId>
+	<artifactId>drools-fusion</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>drools-fusion</name>
+	<packaging>pom</packaging>
+	
+	
+	<parent>
+    	<groupId>com.antmendoza</groupId>
+    	<artifactId>playing-drools6</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+	<modules>
+		<module>entry-point</module>
+	</modules>
+
+
+</project>

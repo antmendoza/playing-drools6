@@ -1,3 +1,4 @@
+
 /target
 
 # Eclipse
@@ -6,9 +7,14 @@
 /*.ipr
 /*.iws
 /*.iml
+.classpath
+.project
+/.settings
 
 # Repository wide ignore mac DS_Store files
 .DS_Store
 
 *.btm
 /logs
+*.prefs
+drools-fusion/entry-point/target

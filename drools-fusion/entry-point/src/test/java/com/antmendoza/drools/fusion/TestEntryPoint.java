@@ -58,22 +58,22 @@ public class TestEntryPoint {
 	@Test
 	public void execute() {
 
-		int idFloor1 = 1;
-		int idFloor2 = 2;
+		int floor1 = 1;
+		int floor2 = 2;
 
-		Signal signal1 = new Signal(1, "sensor1", idFloor1, 33, 71);
+		Signal signal1 = new Signal(1, "sensor1", floor1, 33, 71);
 		insertObject(ksession, signal1);
 
-		Signal signal2 = new Signal(2, "sensor2", idFloor1, 55, 90);
+		Signal signal2 = new Signal(2, "sensor2", floor1, 55, 90);
 		insertObject(ksession, signal2);
 
-		Signal signal3 = new Signal(3, "sensor3", idFloor2, 20, 40);
+		Signal signal3 = new Signal(3, "sensor3", floor2, 20, 40);
 		insertObject(ksession, signal3);
 
-		Signal signal4 = new Signal(4, "sensor4", idFloor2, 55, 40);
+		Signal signal4 = new Signal(4, "sensor4", floor2, 55, 40);
 		insertObject(ksession, signal4);
 
-		Signal signal5 = new Signal(5, "sensor1", idFloor1, 20, 40);
+		Signal signal5 = new Signal(5, "sensor1", floor1, 20, 40);
 		insertObject(ksession, signal5);
 
 		ksession.fireAllRules();

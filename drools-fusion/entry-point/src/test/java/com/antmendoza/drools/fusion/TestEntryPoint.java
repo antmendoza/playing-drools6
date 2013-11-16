@@ -27,7 +27,6 @@ public class TestEntryPoint {
 	@Before
 	public void configure() {
 
-		// Creamos la
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
 				.newKnowledgeBuilder();
 
@@ -48,7 +47,7 @@ public class TestEntryPoint {
 				.newKnowledgeBaseConfiguration();
 		config.setOption(EventProcessingOption.STREAM);
 
-		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase(config);
+		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
 
 		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
 
@@ -59,25 +58,23 @@ public class TestEntryPoint {
 	@Test
 	public void execute() {
 
-		// Insertamos un par de objetos.
-
 		int idFloor1 = 1;
 		int idFloor2 = 2;
 
 		Signal signal1 = new Signal(1, "sensor1", idFloor1, 33, 71);
-		insertEvent(ksession, signal1);
+		insertObject(ksession, signal1);
 
 		Signal signal2 = new Signal(2, "sensor2", idFloor1, 55, 90);
-		insertEvent(ksession, signal2);
+		insertObject(ksession, signal2);
 
 		Signal signal3 = new Signal(3, "sensor3", idFloor2, 20, 40);
-		insertEvent(ksession, signal3);
+		insertObject(ksession, signal3);
 
 		Signal signal4 = new Signal(4, "sensor4", idFloor2, 55, 40);
-		FactHandle factSignal4 = insertEvent(ksession, signal4);
+		insertObject(ksession, signal4);
 
 		Signal signal5 = new Signal(5, "sensor1", idFloor1, 20, 40);
-		insertEvent(ksession, signal5);
+		insertObject(ksession, signal5);
 
 		ksession.fireAllRules();
 
@@ -87,14 +84,9 @@ public class TestEntryPoint {
 		Assert.assertEquals(3, entryPointFloor1.getFactCount());
 		Assert.assertEquals(2, entryPointFloor2.getFactCount());
 
-		
-		WorkingMemoryEntryPoint entryPointAlert = ksession.getWorkingMemoryEntryPoint("alert");
+		WorkingMemoryEntryPoint entryPointAlert = ksession
+				.getWorkingMemoryEntryPoint("alert");
 		Assert.assertEquals(1, entryPointAlert.getFactCount());
-		
-		
-		//
-		// Assert.assertEquals(factSignal4,
-		// entryPointStream2.getFactHandle(signal4));
 
 	}
 
@@ -104,9 +96,9 @@ public class TestEntryPoint {
 		ksession.dispose();
 	}
 
-	private FactHandle insertEvent(StatefulKnowledgeSession ksession,
+	private FactHandle insertObject(StatefulKnowledgeSession ksession,
 			Signal signal) {
-		return getEntryPoint(ksession, signal.getIdFloor()).insert(signal);
+		return getEntryPoint(ksession, signal.getFloor()).insert(signal);
 
 	}
 

@@ -3,8 +3,8 @@ package com.antmendoza.model;
 public class Signal {
 
 	private int id;
-	private String nameSensor;
-	private int idFloor;
+	private String sensor;
+	private int floor;
 	private double temperature;
 	private double humidity;
 
@@ -12,23 +12,23 @@ public class Signal {
 		super();
 	}
 
-	public Signal(int id, String nameSensor, int idFloor, double temperature,
+	public Signal(int id, String sensor, int floor, double temperature,
 			double humidity) {
 		super();
 
 		this.id = id;
-		this.nameSensor = nameSensor;
-		this.idFloor = idFloor;
+		this.sensor = sensor;
+		this.floor = floor;
 		this.temperature = temperature;
 		this.humidity = humidity;
 	}
 
-	public String getNameSensor() {
-		return nameSensor;
+	public String getSensor() {
+		return sensor;
 	}
 
-	public void setNameSensor(String nameSensor) {
-		this.nameSensor = nameSensor;
+	public void setSensor(String sensor) {
+		this.sensor = sensor;
 	}
 
 	public double getTemperature() {
@@ -55,12 +55,12 @@ public class Signal {
 		this.id = id;
 	}
 
-	public int getIdFloor() {
-		return idFloor;
+	public int getFloor() {
+		return floor;
 	}
 
-	public void setIdFloor(int idFloor) {
-		this.idFloor = idFloor;
+	public void setFloor(int floor) {
+		this.floor = floor;
 	}
 
 }

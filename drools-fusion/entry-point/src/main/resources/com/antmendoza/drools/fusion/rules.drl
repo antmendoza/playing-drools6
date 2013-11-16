@@ -4,6 +4,9 @@ package com.antmendoza.drools.fusion
 import com.antmendoza.model.Signal
 //list any import classes here.
 
+declare Signal
+   @role(event)
+end
 
 //declare any global variables here
 
@@ -14,7 +17,7 @@ dialect "mvel"
        $s: Signal(temperature > 30, humidity > 70) from entry-point "floor1"
     then
         //actions
-		System.out.println("Processing "+$s.sensor +" signal:" +$s.id+ " -> " + kcontext.getRule().getName());
+		System.out.println("Processing  signal:" +$s.id+" from "+$s.sensor +"; Rule: " + kcontext.getRule().getName());
 end
 
 rule "Signal from floor2 with temperature > 50"
@@ -24,12 +27,9 @@ dialect "mvel"
        $s: Signal(temperature > 50) from entry-point "floor2"
     then
         //actions
-		System.out.println("Processing "+$s.sensor +" signal:" +$s.id+ " -> " + kcontext.getRule().getName());
-		//entryPoints["alert"].insert( $s );
+		System.out.println("Processing  signal:" +$s.id+" from "+$s.sensor +"; Rule: " + kcontext.getRule().getName());
+		entryPoints["alert"].insert( $s );
 end
-
-
-
 
 rule "Signal alert"
 dialect "mvel" 
@@ -38,7 +38,7 @@ dialect "mvel"
        $s: Signal() from entry-point "alert"
     then
         //actions
-		System.out.println("Processing "+$s.sensor +" signal:" +$s.id+ " -> " + kcontext.getRule().getName());
+		System.out.println("Processing  signal:" +$s.id+" from "+$s.sensor +"; Rule: " + kcontext.getRule().getName());
 end
 
 

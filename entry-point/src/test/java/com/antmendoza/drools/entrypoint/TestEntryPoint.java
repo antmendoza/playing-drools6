@@ -1,4 +1,4 @@
-package com.antmendoza.drools.fusion;
+package com.antmendoza.drools.entrypoint;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;

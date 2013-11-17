@@ -9,7 +9,7 @@
 
 	<parent>
 		<groupId>com.antmendoza</groupId>
-		<artifactId>drools-fusion</artifactId>
+		<artifactId>playing-drools6</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 

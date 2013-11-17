@@ -91,7 +91,7 @@
 
 
 	<modules>
-		<module>drools-fusion</module>
+		<module>entry-point</module>
 	</modules>
 
 

@@ -4,6 +4,7 @@ package com.antmendoza.drools.fusion
 import com.antmendoza.model.Signal
 //list any import classes here.
 
+
 declare Signal
    @role(event)
 end

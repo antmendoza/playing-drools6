@@ -12,12 +12,11 @@ public class Signal {
 		super();
 	}
 
-	public Signal(int id, String sensor, int floor, double temperature,
-			double humidity) {
+	public Signal(int id, int floor, double temperature, double humidity) {
 		super();
 
 		this.id = id;
-		this.sensor = sensor;
+		this.sensor = "sensor" + id;
 		this.floor = floor;
 		this.temperature = temperature;
 		this.humidity = humidity;

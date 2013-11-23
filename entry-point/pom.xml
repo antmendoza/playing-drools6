@@ -15,10 +15,6 @@
 
 
 
-
-	<properties>
-		<drools.version>5.5.0.Final</drools.version>
-	</properties>
-
+	
 </project>
 

@@ -76,6 +76,13 @@ public class TestEntryPoint {
 
 	}
 
+
+	@After
+	public void dispose() {
+
+		ksession.dispose();
+	}
+	
 	private EntryPoint getEntryPoint(KieSession ksession2, int floor) {
 
 		return ksession.getEntryPoint("floor" + floor);
@@ -87,10 +94,5 @@ public class TestEntryPoint {
 
 	}
 
-	@After
-	public void dispose() {
-
-		ksession.dispose();
-	}
 
 }

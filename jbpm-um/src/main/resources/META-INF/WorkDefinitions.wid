@@ -1,0 +1,37 @@
+import org.drools.process.core.datatype.impl.type.IntegerDataType;
+import org.drools.process.core.datatype.impl.type.StringDataType;
+import org.drools.process.core.datatype.impl.type.BooleanDataType;
+import org.drools.process.core.datatype.impl.type.ObjectDataType;
+[  
+  
+  [
+    "name" : "ACTUALIZA_VACACIONES",
+    "displayName" : "ACTUALIZA_VACACIONES",
+    "parameters" : [
+        "solicitante_input" : new String(),
+        "num_dias_input"    : new Integer()
+    ],
+    "icon": "icons/database.png" 
+  ],
+  
+  
+  
+  
+  
+  
+  
+  
+  [
+    "name" : "EmailHandler",
+    "displayName" : "Email",
+    "parameters" : [
+        "From" : new StringDataType(),
+        "To" : new StringDataType(),
+        "Body": new StringDataType(),
+        "Cc" : new StringDataType(),
+        "Bcc" : new StringDataType()
+    ],
+    "icon": "icons/email_.png" 
+  ]
+  
+]

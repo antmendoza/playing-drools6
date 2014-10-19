@@ -121,6 +121,7 @@
 	<modules>
 		<module>entry-point</module>
 		<module>jbpm</module>
+		<module>jbpm-um</module>
 	</modules>
 
 

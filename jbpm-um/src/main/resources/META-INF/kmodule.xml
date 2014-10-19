@@ -1,0 +1,33 @@
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<kbase name="kb_umu" default="true" eventProcessingMode="stream"
+		equalsBehavior="identity" packages="com.antmendoza.um.solicitudes">
+
+		<ksession name="ks_umu" default="true">
+			<workItemHandlers>
+				<workItemHandler type="com.antmendoza.um.workitem.ActualizaDiasWorkItem"
+					name="ACTUALIZA_VACACIONES" />
+			</workItemHandlers>
+			<listeners>
+				<processEventListener
+					type="com.antmendoza.um.listener.VariableChangeEventListener" />
+			</listeners>
+		</ksession>
+
+
+		<ksession name="ks_umu_test">
+			<workItemHandlers>
+				<workItemHandler type="com.antmendoza.workitem.mock.AutocompleteWorkItem"
+					name="ACTUALIZA_VACACIONES" />
+				<workItemHandler
+					type="com.antmendoza.workitem.mock.WaitForCompleteWorkItemHandler"
+					name="Human Task" />
+			</workItemHandlers>
+			<listeners>
+				<processEventListener
+					type="com.antmendoza.um.listener.VariableChangeEventListener" />
+			</listeners>
+		</ksession>
+
+	</kbase>
+</kmodule>

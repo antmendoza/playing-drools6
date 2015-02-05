@@ -9,25 +9,37 @@
 					name="ACTUALIZA_VACACIONES" />
 			</workItemHandlers>
 			<listeners>
+				<agendaEventListener
+					type="com.antmendoza.um.listener.BussinesRuleAgendaEventListener" />
+				<processEventListener
+					type="com.antmendoza.um.listener.StartProcessEventListener" />
+				<processEventListener
+					type="com.antmendoza.um.listener.CompleteProcessEventListener" />
+
 				<processEventListener
 					type="com.antmendoza.um.listener.VariableChangeEventListener" />
 			</listeners>
 		</ksession>
 
-
 		<ksession name="ks_umu_test">
 			<workItemHandlers>
-				<workItemHandler type="com.antmendoza.workitem.mock.AutocompleteWorkItem"
+				<workItemHandler type="com.antmendoza.um.workitem.ActualizaDiasWorkItem"
 					name="ACTUALIZA_VACACIONES" />
 				<workItemHandler
 					type="com.antmendoza.workitem.mock.WaitForCompleteWorkItemHandler"
 					name="Human Task" />
 			</workItemHandlers>
 			<listeners>
+				<agendaEventListener
+					type="com.antmendoza.um.listener.BussinesRuleAgendaEventListener" />
+				<processEventListener
+					type="com.antmendoza.um.listener.StartProcessEventListener" />
+				<processEventListener
+					type="com.antmendoza.um.listener.CompleteProcessEventListener" />
+
 				<processEventListener
 					type="com.antmendoza.um.listener.VariableChangeEventListener" />
 			</listeners>
 		</ksession>
-
 	</kbase>
 </kmodule>

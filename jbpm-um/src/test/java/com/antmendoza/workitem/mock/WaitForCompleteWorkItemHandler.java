@@ -15,6 +15,12 @@ public class WaitForCompleteWorkItemHandler implements WorkItemHandler {
 	private WorkItemManager manager = null;
 	private Map<String, Object> inputParameters;
 
+	private static List<Task> tasks = null;
+
+	public WaitForCompleteWorkItemHandler() {
+		tasks = new ArrayList<Task>();
+	}
+
 	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 
 		inputParameters = new HashMap<String, Object>();
@@ -24,38 +30,41 @@ public class WaitForCompleteWorkItemHandler implements WorkItemHandler {
 				.entrySet()) {
 			inputParameters.put(entry.getKey(), entry.getValue());
 		}
+		String taskName = (String) workItem.getParameter("TaskName");
+		String actorId = (String) workItem.getParameter("ActorId");
+		long id = workItem.getId();
+
+		tasks.add(new Task(id, taskName, actorId));
 
 	}
 
 	public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {
 	}
 
-	public Map<String, Object> getInputParameters() {
-		return inputParameters;
+	public void completeTask(long taskId, Map<String, Object> paramWI) {
+		manager.completeWorkItem(taskId, paramWI);
+		removeTaskById(taskId);
 	}
 
-	public Object getInputParameter(String parameterName) {
-		return inputParameters.get(parameterName);
-	}
+	public List<Task> getTaskByActorId(String actorId) {
+		List<Task> result = new ArrayList<Task>();
 
-	private WorkItem getItemByTaskName(String taskName) {
-		WorkItem result = null;
-		for (WorkItem item : items) {
-			// nombre de la tarea.
-			String name = (String) item.getParameter("TaskName");
-			if (taskName.equals(name)) {
-				result = item;
+		for (Task task : tasks) {
+			if (task.getAutor().equals(actorId)) {
+				result.add(task);
 			}
-
 		}
-		items.remove(result);
-
 		return result;
 	}
 
-	public void completeWorkItemByTaskName(String taskName,
-			Map<String, Object> paramWI) {
-		manager.completeWorkItem(getItemByTaskName(taskName).getId(), paramWI);
+	private boolean removeTaskById(long taskId) {
+		Task taskWithId = null;
+		for (Task task : tasks) {
+			if (task.getId() == taskId) {
+				taskWithId = task;
+			}
+		}
+		return tasks.remove(taskWithId);
 
 	}
 

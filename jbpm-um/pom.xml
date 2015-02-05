@@ -8,7 +8,7 @@
 	<artifactId>jbpm-um</artifactId>
 	<version>1.0</version>
 	<name>jbpm-um</name>
-
+	<packaging>ejb</packaging>
 
 
 	<dependencies>

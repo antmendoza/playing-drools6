@@ -11,10 +11,10 @@ public class VariableChangeEventListener extends DefaultProcessEventListener {
 			.getLogger(VariableChangeEventListener.class);
 
 	public void beforeVariableChanged(ProcessVariableChangedEvent event) {
-		log.info("beforeVariableChanged: Nuevo valor: [" + event.getNewValue()
-				+ "]");
-		
-		
+		log.info("beforeVariableChanged:VariableId=[" + event.getVariableId()
+				+ "]; OldValue=[" + event.getOldValue() + "]; NewValue=["
+				+ event.getNewValue() + "]");
+
 	}
 
 }

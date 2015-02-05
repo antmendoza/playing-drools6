@@ -1,0 +1,31 @@
+//created on: Nov 9, 2014
+package com.antmendoza.um.solicutudes
+
+//list any import classes here.
+import org.kie.api.runtime.process.WorkflowProcessInstance;
+
+rule "No puede solicitar más de tres días" 
+ruleflow-group "comprueba_requisitos"
+lock-on-active 
+	when    
+  		$p: WorkflowProcessInstance($n : getVariable("num_dias") > 3)
+    then
+        System.out.println("2");
+    
+    	modify($p){setVariable("cumple_requisitos", false)};
+end
+
+rule "Inicializa variable cumple_requisitos" 
+ruleflow-group "comprueba_requisitos"
+lock-on-active 
+salience -1
+	when    
+  		$p: WorkflowProcessInstance($n : getVariable("cumple_requisitos") == null)
+    then
+    System.out.println("2");
+    	modify($p){setVariable("cumple_requisitos", true)};
+end
+
+
+
+

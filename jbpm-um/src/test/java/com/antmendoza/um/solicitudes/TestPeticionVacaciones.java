@@ -1,6 +1,7 @@
 package com.antmendoza.um.solicitudes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.drools.core.process.instance.impl.DefaultWorkItemManager;
@@ -8,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieServices;
-import org.kie.api.definition.process.WorkflowProcess;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.antmendoza.eventlistener.NodeEventListener;
-import com.antmendoza.um.solicitudes.Estado;
+import com.antmendoza.workitem.mock.Task;
 import com.antmendoza.workitem.mock.WaitForCompleteWorkItemHandler;
 
 public class TestPeticionVacaciones {
@@ -46,22 +46,29 @@ public class TestPeticionVacaciones {
 
 		try {
 
+			
+			printInicioTest("testVacacionesValidadas");
+			
+			// Iniciamos un proceso, creamos una instancia del proceso
+			// 'com.antmendoza.um.solicitudes.vacaciones'
 			Map<String, Object> params = new HashMap<String, Object>();
-
 			params.put("solicitante", "antmendoza");
 			params.put("num_dias", 2);
-
 			ProcessInstance processInstance = ksession.startProcess(PROCESS_ID,
 					params);
 
 			// Completando tarea de usuario
-			WaitForCompleteWorkItemHandler humanWorkItemHandler = (WaitForCompleteWorkItemHandler) getWorkItemHandler("Human Task");
+			// Obtenemos la lista de tareas pendientes para el usuario
+			// super_pepe, completamos la primera, la que se le acaba de asignar
+			List<Task> tasks = getTaskByActorId("super_pepe");
+			Task task = tasks.get(0);
+			// Completamos con el parámetro estado_form = VALIDADO
 			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("estado_output", Estado.VALIDADO.name());
-			humanWorkItemHandler.completeWorkItemByTaskName(
-					"Valida vacaciones", result);
+			result.put("estado_form", Estado.VALIDADO.name());
+			completeTaskTaskName(task.getId(), result);
 
-			// Comprobación de datos
+			// Comprobamos si ha pasado por la actividad..
+			// "Vacaciones validadas"
 			Assert.assertTrue(nodeEventListener.getNodesName().contains(
 					"Vacaciones validadas"));
 
@@ -69,8 +76,12 @@ public class TestPeticionVacaciones {
 					ProcessInstance.STATE_COMPLETED);
 
 			ksession.dispose();
+
+			
+			printFinTest("testVacacionesValidadas");
+			
 		} catch (Exception e) {
-			Assert.fail(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -80,22 +91,28 @@ public class TestPeticionVacaciones {
 
 		try {
 
+			
+			printInicioTest("testVacacionesNoValidadas");
+			
+			// Iniciamos un proceso, creamos una instancia del proceso
+			// 'com.antmendoza.um.solicitudes.vacaciones'
 			Map<String, Object> params = new HashMap<String, Object>();
-
 			params.put("solicitante", "antmendoza");
 			params.put("num_dias", 2);
-
 			ProcessInstance processInstance = ksession.startProcess(PROCESS_ID,
 					params);
 
 			// Completando tarea de usuario
-			WaitForCompleteWorkItemHandler humanWorkItemHandler = (WaitForCompleteWorkItemHandler) getWorkItemHandler("Human Task");
+			// Obtenemos la lista de tareas pendientes para el usuario
+			// super_pepe, completamos la primera, la que se le acaba de asignar
+			List<Task> tasks = getTaskByActorId("super_pepe");
+			Task task = tasks.get(0);
+			// Completamos con el parámetro estado_form = NO_VALIDADO
 			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("estado_output", Estado.NO_VALIDADO.name());
-			humanWorkItemHandler.completeWorkItemByTaskName(
-					"Valida vacaciones", result);
+			result.put("estado_form", Estado.NO_VALIDADO.name());
+			completeTaskTaskName(task.getId(), result);
 
-			// Comprobación de datos
+			// Comprobamos si ha pasado por el nodo 'Vacaciones no validadas'
 			Assert.assertTrue(nodeEventListener.getNodesName().contains(
 					"Vacaciones no validadas"));
 
@@ -103,8 +120,12 @@ public class TestPeticionVacaciones {
 					ProcessInstance.STATE_COMPLETED);
 
 			ksession.dispose();
+			
+			
+			printFinTest("testVacacionesNoValidadas");
+
 		} catch (Exception e) {
-			Assert.fail(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -114,8 +135,11 @@ public class TestPeticionVacaciones {
 
 		try {
 
-			Map<String, Object> params = new HashMap<String, Object>();
+			printInicioTest("testVacacionesRevisaYValida");
 
+			// Iniciamos un proceso, creamos una instancia del proceso
+			// 'com.antmendoza.um.solicitudes.vacaciones'
+			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("solicitante", "antmendoza");
 			params.put("num_dias", 2);
 
@@ -123,35 +147,46 @@ public class TestPeticionVacaciones {
 					params);
 
 			// Completando tarea de usuario
-			WaitForCompleteWorkItemHandler humanWorkItemHandler = (WaitForCompleteWorkItemHandler) getWorkItemHandler("Human Task");
+			// Obtenemos la lista de tareas pendientes para el usuario
+			// super_pepe, completamos la primera, la que se le acaba de asignar
+			List<Task> tasks = getTaskByActorId("super_pepe");
+			Task task = tasks.get(0);
+			// Completamos con el parámetro estado_form = REVISAR, añadimos un
+			// comentario.
 			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("estado_output", Estado.REVISAR.name());
-			result.put("comentario_output", "Sólo un día");
-			humanWorkItemHandler.completeWorkItemByTaskName(
-					"Valida vacaciones", result);
+			result.put("estado_form", Estado.REVISAR.name());
+			result.put("comentario_form", "Sólo un día");
+			completeTaskTaskName(task.getId(), result);
 
+			// Comprobamos que ha pasado por 'Revisa solicitud'
 			Assert.assertTrue(nodeEventListener.getNodesName().contains(
 					"Revisa solicitud"));
 
-			
-			// Comprobamos los valor de la variable comentario
+			// Comprobamos los valor de la variable comentario dentro de la
+			// instancia del proceso.
 			String comentario = (String) getVariableValue(processInstance,
 					"comentario");
 			Assert.assertEquals("Sólo un día", comentario);
 
-
-			
-			// Revisa solicitud y cambia el número de días.
+			// Completando tarea de usuario 'Revisa solicitud', asignada al
+			// solicitante en tiempo de ejecución.
+			// Obtenemos la lista de tareas pendientes para el usuario
+			// antmendoza, completamos la primera, la que se le acaba de asignar
+			tasks = getTaskByActorId("antmendoza");
+			task = tasks.get(0);
 			result = new HashMap<String, Object>();
 			result.put("num_dias_output", 1);
-			humanWorkItemHandler.completeWorkItemByTaskName("Revisa solicitud",
-					result);
+			completeTaskTaskName(task.getId(), result);
 
 			// Acepta/valida solicitud
+			// El usuario super_pepe vuelve a tener una tarea asignada, la
+			// completamos
+			tasks = getTaskByActorId("super_pepe");
+			task = tasks.get(0);
+			// En con estado VALIDADO, el proceso finaliza.
 			result = new HashMap<String, Object>();
-			result.put("estado_output", Estado.VALIDADO.name());
-			humanWorkItemHandler.completeWorkItemByTaskName(
-					"Valida vacaciones", result);
+			result.put("estado_form", Estado.VALIDADO.name());
+			completeTaskTaskName(task.getId(), result);
 
 			// Comprobación de datos
 			Assert.assertTrue(nodeEventListener.getNodesName().contains(
@@ -166,8 +201,12 @@ public class TestPeticionVacaciones {
 					ProcessInstance.STATE_COMPLETED);
 
 			ksession.dispose();
+			
+			printFinTest("testVacacionesRevisaYValida");
+
+			
 		} catch (Exception e) {
-			Assert.fail(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -185,4 +224,34 @@ public class TestPeticionVacaciones {
 				.getVariable(variableId);
 
 	}
+
+	private void completeTaskTaskName(long taskId, Map<String, Object> paramWI) {
+
+		WaitForCompleteWorkItemHandler humanWorkItemHandler = getWaitForCompleteWorkItemHandler();
+		humanWorkItemHandler.completeTask(taskId, paramWI);
+
+	}
+
+	private List<Task> getTaskByActorId(String actorId) {
+		WaitForCompleteWorkItemHandler humanWorkItemHandler = getWaitForCompleteWorkItemHandler();
+		return humanWorkItemHandler.getTaskByActorId(actorId);
+	}
+
+	private WaitForCompleteWorkItemHandler getWaitForCompleteWorkItemHandler() {
+		return (WaitForCompleteWorkItemHandler) getWorkItemHandler("Human Task");
+	}
+
+	private void printInicioTest(String methodName) {
+		System.out.print("------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------------------------");
+		log.debug("Inicio test " + methodName);
+	}
+
+	private void printFinTest(String methodName) {
+
+		log.debug("Fin test " + methodName);
+		System.out.println("");
+
+	}
+
 }

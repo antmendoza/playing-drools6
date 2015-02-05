@@ -11,16 +11,10 @@ import org.drools.process.core.datatype.impl.type.ObjectDataType;
         "solicitante_input" : new String(),
         "num_dias_input"    : new Integer()
     ],
+    "results" : [
+    ],
     "icon": "icons/database.png" 
   ],
-  
-  
-  
-  
-  
-  
-  
-  
   [
     "name" : "EmailHandler",
     "displayName" : "Email",

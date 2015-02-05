@@ -19,9 +19,9 @@ public class ActualizaDiasWorkItem implements WorkItemHandler {
 
 		Object solicitante_input = workItem.getParameter("solicitante_input");
 
-		log.info("Actualizando num_dias_input " + num_dias_input );
+		log.info("Actualizando num_dias_input " + num_dias_input);
 
-		log.info("Actualizando solicitante_input " + solicitante_input );
+		log.info("Actualizando solicitante_input " + solicitante_input);
 
 		// Actualizamos días, DDBB, WS...
 
